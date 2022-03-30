@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fun-gible Avatar Yeet Club</title>
+
+    <style>
+        body {
+            text-align: center;
+        }
+
+        #token {
+            border: 3px double black;
+            width: 90vw;
+            max-width: 631px;
+            object-fit: contain;
+        }
+
+        #canvas, #staging {
+            display: none;
+        }
+    </style>
+
+    <script>
+        const WIDTH = 631;
+        const HEIGHT = 631;
+        const COLOR_STEPS = 8
+
+        function randomColor() {
+            function randomValue() {
+                const stepSize = 255 / COLOR_STEPS;
+                return Math.floor(Math.floor(Math.random() * COLOR_STEPS) * stepSize) + Math.floor(stepSize / 2)
+            }
+
+            return [randomValue(), randomValue(), randomValue()]
+        }
+
+        function draw(name, context) {
+            const drawFixed = () => new Promise((resolve) => {
+                const fixed = new Image();
+                fixed.src = `art/${name}_fixed.png`
+                fixed.onload = () => {
+                    console.log(`Drawing ${name}_fixed...`)
+                    context.drawImage(fixed, 0, 0);
+                    resolve();
+                };
+                fixed.onerror = resolve;
+            });
+            const drawColors = () => new Promise((resolve) => {
+                const stagingCanvas = document.getElementById("staging")
+                const stagingContext = stagingCanvas.getContext('2d');
+                const colors = new Image()
+                colors.crossOrigin = "anonymous";
+                colors.src = `art/${name}_colors.png`;
+                colors.onload = function () {
+                    stagingContext.clearRect(0, 0, WIDTH, HEIGHT);
+                    stagingContext.drawImage(colors, 0, 0);
+                    const colorsData = stagingContext.getImageData(0, 0, WIDTH, HEIGHT);
+                    const presentColors = {}
+                    // Record non transparent colors
+                    for (let i = 0; i < colorsData.data.length; i += 4) {
+                        if (colorsData.data[i + 3] > 0) {
+                            const red = colorsData.data[i];
+                            const green = colorsData.data[i + 1];
+                            const blue = colorsData.data[i + 2];
+                            const rgb = `${red},${green},${blue}`;
+                            presentColors[rgb] = true;
+                        }
+                    }
+                    // Assign random color
+                    for (let key of Object.keys(presentColors)) {
+                        presentColors[key] = randomColor();
+                    }
+                    // Replace colors
+                    for (let i = 0; i < colorsData.data.length; i += 4) {
+                        if (colorsData.data[i + 3] > 0) {
+                            const red = colorsData.data[i];
+                            const green = colorsData.data[i + 1];
+                            const blue = colorsData.data[i + 2];
+                            const rgb = `${red},${green},${blue}`;
+                            if (presentColors[rgb]) {
+                                colorsData.data[i] = presentColors[rgb][0];
+                                colorsData.data[i + 1] = presentColors[rgb][1];
+                                colorsData.data[i + 2] = presentColors[rgb][2];
+                            }
+                        }
+                    }
+                    console.log(`Drawing ${name}_colors...`)
+                    stagingContext.putImageData(colorsData, 0, 0);
+                    context.drawImage(stagingCanvas, 0, 0);
+                    resolve();
+                }
+                colors.onerror = resolve;
+            })
+
+            return drawFixed().then(drawColors);
+        }
+
+        function mintToken() {
+            const canvas = document.getElementById("canvas");
+            const context = canvas.getContext('2d');
+
+            // Background
+            context.beginPath();
+            context.rect(0, 0, WIDTH, HEIGHT);
+            context.fillStyle = `rgb(${randomColor()})`;
+            context.fill();
+
+            function drawRandom(name, nVariants) {
+                name = name.replace("#", Math.floor(Math.random() * nVariants));
+                return draw(name, context)
+            }
+
+            // backdrop
+            // landscape
+            // bgObject
+            const drawBody = () => drawRandom("bodies/body#", 0);
+            const drawArms = () => drawRandom("arms/arm#", 0);
+            // innerShirt
+            // outerShirt
+            const drawHead = () => drawRandom("heads/head#", 4);
+            // neckwear
+            const drawEyes = () => drawRandom("eyes/eyes#", 4);
+            const drawMouth = () => drawRandom("mouths/mouth#", 4);
+            const drawHat = () => drawRandom("hats/hat#", 2);
+            // object
+            const renderImage = () => {
+                const image = document.getElementById("token");
+                image.src = canvas.toDataURL("image/png");
+            }
+
+            drawBody()
+                .then(drawArms)
+                .then(drawHead)
+                .then(drawEyes)
+                .then(drawMouth)
+                .then(drawHat)
+                .then(renderImage);
+        }
+    </script>
+</head>
+<body onload="mintToken()">
+<h1>Fun-gible Avatar Yeet Club (FAYC)</h1>
+<p>&ldquo; Every one unique, none of them special. &rdquo;</p>
+<img id="token"/>
+<canvas id="canvas" width="631" height="631"></canvas>
+<canvas id="staging" width="631" height="631"></canvas>
+<p>Copyirght &copy; 2022 George Moe.</p>
+</body>
+</html>
