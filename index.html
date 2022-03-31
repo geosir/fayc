@@ -116,16 +116,16 @@
             const drawBackdrop = () => drawRandom("backdrops/backdrop#", 2)
             const drawLandscape = () => drawRandom("landscapes/landscape#", 3)
             const drawOutshirtBack = () => draw(`outshirt_backs/outshirt_back${outshirtNum}`, context);
-            const drawBody = () => drawRandom("bodies/body#", 0);
+            const drawBody = () => draw("bodies/body0", context);
             const drawHead = () => drawRandom("heads/head#", 4);
-            const drawEyes = () => drawRandom("eyes/eyes#", 4);
+            const drawEyes = () => drawRandom("eyes/eyes#", 5);
             const drawMouth = () => drawRandom("mouths/mouth#", 4);
             const drawHat = () => drawRandom("hats/hat#", 5);
             const drawArms = () => drawRandom("arms/arms#", 5);
             const drawInshirt = () => drawRandom("inshirts/inshirt#", 2);
             const drawOutshirtFront = () => draw(`outshirt_fronts/outshirt_front${outshirtNum}`, context);
             const drawNeckwear = () => drawRandom("neckwear/neckwear#", 3);
-            const drawObject = () => drawRandom("objects/object#", 3);
+            // const drawObject = () => drawRandom("objects/object#", 3);
             const renderImage = () => {
                 const image = document.getElementById("token");
                 image.src = canvas.toDataURL("image/png");
@@ -143,7 +143,7 @@
                 .then(drawInshirt)
                 .then(drawOutshirtFront)
                 .then(drawNeckwear)
-                .then(drawObject)
+                // .then(drawObject)
                 .then(renderImage);
         }
     </script>
