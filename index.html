@@ -36,16 +36,6 @@
         }
 
         function draw(name, context) {
-            const drawFixed = () => new Promise((resolve) => {
-                const fixed = new Image();
-                fixed.src = `art/${name}_fixed.png`
-                fixed.onload = () => {
-                    console.log(`Drawing ${name}_fixed...`)
-                    context.drawImage(fixed, 0, 0);
-                    resolve();
-                };
-                fixed.onerror = resolve;
-            });
             const drawColors = () => new Promise((resolve) => {
                 const stagingCanvas = document.getElementById("staging")
                 const stagingContext = stagingCanvas.getContext('2d');
@@ -91,9 +81,20 @@
                     resolve();
                 }
                 colors.onerror = resolve;
-            })
+            });
 
-            return drawFixed().then(drawColors);
+            const drawFixed = () => new Promise((resolve) => {
+                const fixed = new Image();
+                fixed.src = `art/${name}_fixed.png`
+                fixed.onload = () => {
+                    console.log(`Drawing ${name}_fixed...`)
+                    context.drawImage(fixed, 0, 0);
+                    resolve();
+                };
+                fixed.onerror = resolve;
+            });
+
+            return drawColors().then(drawFixed);
         }
 
         function mintToken() {
@@ -111,36 +112,39 @@
                 return draw(name, context)
             }
 
-            // backdrop
-            // landscape
-            // bgObject
+            const drawBackdrop = () => drawRandom("backdrops/backdrop#", 2)
+            const drawLandscape = () => drawRandom("landscapes/landscape#", 3)
+            // outerShirtBack
             const drawBody = () => drawRandom("bodies/body#", 0);
-            const drawArms = () => drawRandom("arms/arm#", 0);
             // innerShirt
-            // outerShirt
+            // outerShirtFront
             const drawHead = () => drawRandom("heads/head#", 4);
             // neckwear
             const drawEyes = () => drawRandom("eyes/eyes#", 4);
             const drawMouth = () => drawRandom("mouths/mouth#", 4);
-            const drawHat = () => drawRandom("hats/hat#", 2);
-            // object
+            const drawHat = () => drawRandom("hats/hat#", 5);
+            const drawArms = () => drawRandom("arms/arms#", 5);
+            const drawObject = () => drawRandom("objects/object#", 3);
             const renderImage = () => {
                 const image = document.getElementById("token");
                 image.src = canvas.toDataURL("image/png");
             }
 
-            drawBody()
-                .then(drawArms)
+            drawBackdrop()
+                .then(drawLandscape)
+                .then(drawBody)
                 .then(drawHead)
                 .then(drawEyes)
                 .then(drawMouth)
                 .then(drawHat)
+                .then(drawArms)
+                .then(drawObject)
                 .then(renderImage);
         }
     </script>
 </head>
 <body onload="mintToken()">
-<h1>Fun-gible Avatar Yeet Club (FAYC)</h1>
+<h1>FUN-gible Avatar Yeet Club (FAYC)</h1>
 <p>&ldquo; Every one unique, none of them special. &rdquo;</p>
 <img id="token"/>
 <canvas id="canvas" width="631" height="631"></canvas>
