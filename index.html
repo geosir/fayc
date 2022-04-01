@@ -4,14 +4,31 @@
     <meta charset="UTF-8">
     <title>Fun-gible Avatar Yeet Club</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,700;1,400;1,700&family=Walter+Turncoat&display=swap"
+          rel="stylesheet">
+
     <style>
         body {
             text-align: center;
+            padding: 12px;
+            font-family: "Poppins", sans-serif;
+        }
+
+        hr {
+            border-width: 0 0 1px 0;
+        }
+
+        h1 {
+            font-family: "Walter Turncoat", sans-serif;
+            font-size: 3rem;
+            margin-bottom: 0;
         }
 
         #token {
             border: 3px double black;
-            width: 90vw;
+            width: 90%;
             max-width: 631px;
             object-fit: contain;
         }
@@ -152,9 +169,18 @@
 <p><b><i>Every one unique, none of them special!</i></b></p>
 <img id="token"/>
 <p>A series of
-    1,953,388,995,956,815,995,679,855,887,190,685,420,006,835,173,286,284,970,272,314,736,944,055,110,172,934,144
+    <span style="word-break: break-all">1,953,388,995,956,815,995,679,855,887,190,685,420,006,835,173,286,284,970,272,314,736,944,055,110,172,934,144</span>
     original artworks...<br/><b>Try and collect them all!</b></p>
-<p>Copyirght &copy; 2022 George Moe.</p>
+<hr/>
+<div style="color: gray; font-size: 0.8em">
+    <p>Copyirght &copy; 2022 <a href="https://george.moe">George Moe.</a></p>
+    <p><a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">
+        <img alt="Creative Commons License"
+             style="border-width:0"
+             src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png"/></a><br/>This
+        work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons
+            Attribution-NonCommercial 4.0 International License</a>.</p>
+</div>
 <canvas id="canvas" width="631" height="631"></canvas>
 <canvas id="staging" width="631" height="631"></canvas>
 </body>
