@@ -38,6 +38,7 @@
 
         .button:hover, #buy-button:hover, #mint-button:hover {
             background: yellow;
+            color: black;
         }
 
         #buy-button {
@@ -255,7 +256,7 @@
             seedString = search.get("s");
             let seeders;
             if (seedString) {
-                seeders = [xmur3(seedString.slice(0, 24)), xmur3(24, 48), xmur3(48, 72)];
+                seeders = [xmur3(seedString.slice(0, 24)), xmur3(seedString.slice(24, 48)), xmur3(seedString.slice(48, 72))];
             } else {
                 const newSeedString = [randomSeed(), randomSeed(), randomSeed()]
                 seeders = [xmur3(newSeedString[0]), xmur3(newSeedString[1]), xmur3(newSeedString[2])]
