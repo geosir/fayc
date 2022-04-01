@@ -113,8 +113,8 @@
             }
 
             const outshirtNum = Math.floor(Math.random() * 3);
-            const drawBackdrop = () => drawRandom("backdrops/backdrop#", 2)
-            const drawLandscape = () => drawRandom("landscapes/landscape#", 3)
+            const drawBackdrop = () => drawRandom("backdrops/backdrop#", 8)
+            const drawLandscape = () => drawRandom("landscapes/landscape#", 4)
             const drawOutshirtBack = () => draw(`outshirt_backs/outshirt_back${outshirtNum}`, context);
             const drawBody = () => draw("bodies/body0", context);
             const drawHead = () => drawRandom("heads/head#", 8);
