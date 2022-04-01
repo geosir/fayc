@@ -112,7 +112,7 @@
                 return draw(name, context)
             }
 
-            const outshirtNum = Math.floor(Math.random() * 3);
+            const outshirtNum = Math.floor(Math.random() * 4);
             const drawBackdrop = () => drawRandom("backdrops/backdrop#", 8)
             const drawLandscape = () => drawRandom("landscapes/landscape#", 8)
             const drawOutshirtBack = () => draw(`outshirt_backs/outshirt_back${outshirtNum}`, context);
@@ -122,10 +122,9 @@
             const drawMouth = () => drawRandom("mouths/mouth#", 8);
             const drawHat = () => drawRandom("hats/hat#", 8);
             const drawArms = () => drawRandom("arms/arms#", 8);
-            const drawInshirt = () => drawRandom("inshirts/inshirt#", 2);
+            const drawInshirt = () => drawRandom("inshirts/inshirt#", 5);
             const drawOutshirtFront = () => draw(`outshirt_fronts/outshirt_front${outshirtNum}`, context);
-            const drawNeckwear = () => drawRandom("neckwear/neckwear#", 4);
-            // const drawObject = () => drawRandom("objects/object#", 3);
+            const drawNeckwear = () => drawRandom("neckwear/neckwear#", 5);
             const renderImage = () => {
                 const image = document.getElementById("token");
                 image.src = canvas.toDataURL("image/png");
